@@ -60,5 +60,5 @@
     generate/       Auxilary Java classes directory
     runtimy/        Output Java classes directory
 
-  dl.hs        Main module
+  dl.hs             Main module
 
