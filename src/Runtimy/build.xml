@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="Windows-1251"?>
+
+<project name="runtimy" default="build">
+
+    <description>Runtimy for DL/1</description>
+
+    <property name="src.dir" location="src"/>
+    <property name="classes.dir" location="classes"/>
+
+    <target name="init">
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${classes.dir}"/>
+        <delete file="runtimy.jar"/>
+    </target>
+
+    <target name="compile" description="Compile Java files" depends="init">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" target="1.5"
+               excludes="generate/**, **/fromHaskell/**">
+            <compilerarg value="-Xlint:unchecked"/>
+        </javac>
+    </target>
+
+    <target name="build" description="Build Jar file" depends="compile">
+        <zip destfile="runtimy.jar">
+            <fileset dir="${classes.dir}"/>
+        </zip>
+    </target>
+
+</project>

@@ -1,0 +1,40 @@
+package runtimy;
+
+import generate.Operation;
+import generate.Type;
+
+public abstract class Value {
+    public void incompatibleValueException(Operation operation, Type type1, Type type2) {
+        throw new MRTError("Operation '" + operation.getOperationString() +
+                        "' incompatible with types '" + type1.getTypeString() + "' and '" + type2.getTypeString() + "'");
+    }
+
+    public void incompatibleValueException(Operation operation, Type type) {
+        throw new MRTError("Operation '" + operation.getOperationString() +
+                        "' incompatible with type '" + type.getTypeString() + "'");
+    }
+
+    public void incompatibleValueException(String message) {
+        throw new MRTError(message);
+    }
+
+    public Value get() {
+        return this;
+    }
+
+    public abstract void putValue(Value key, Value value);
+
+    public abstract boolean isTrue();
+
+public BooleanVal equal(Value val) {
+       return new BooleanVal(new Boolean(this.equals(val)));
+}
+public abstract Value apply(Value... values);
+public abstract Value getValue(Value value);
+#foreach($operation in $allExceptFunctionObjectOperations)
+    public abstract Value ${operation.operationFunction}(Value val);
+    #foreach($type in $types)
+        public abstract Value ${operation.operationFunction}${type.typeString}($type.typeString val);
+    #end
+#end
+}

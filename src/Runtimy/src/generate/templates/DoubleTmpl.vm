@@ -1,0 +1,58 @@
+package runtimy;
+
+import generate.Type;
+import generate.Operation;
+
+public class DoubleVal extends Value {
+    public final Double value;
+
+    public DoubleVal(double value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        return value.toString();
+    }
+
+    public int hashCode() {
+        return 31 * value.hashCode();
+    }
+
+    public boolean equals(Object object) {
+        if (object instanceof DoubleVal) {
+             return ((DoubleVal)object).value.equals(value);
+        } else {
+            return false;
+        }
+    }
+
+    public Value apply(Value... values) {
+        incompatibleValueException(Operation.APPLY, Type.DOUBLE);
+        return null;
+    }
+
+    public Value getValue(Value value) {
+        incompatibleValueException(Operation.GET_VALUE, Type.DOUBLE);
+        return null;
+    }
+
+    public boolean isTrue() {
+        return false;
+    }
+
+    public void putValue(Value key, Value value) {
+        incompatibleValueException(Operation.PUT_VALUE, Type.DOUBLE);
+    }
+
+    #foreach($operation in $allExceptFunctionObjectOperations)
+        public Value ${operation.operationFunction}(Value val) {
+            return val.${operation.operationFunction}DoubleVal(this);
+        }
+
+    #end
+
+    #foreach($function in $finallyAppliedFunctions)
+        $function
+
+    #end
+}

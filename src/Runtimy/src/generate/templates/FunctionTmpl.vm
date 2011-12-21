@@ -1,0 +1,42 @@
+package runtimy;
+
+import generate.Type;
+import generate.Operation;
+
+public class FunctionVal extends Value {
+    Call call;
+    
+    public FunctionVal(Call call) {
+        this.call = call;
+    }
+
+    public Value apply(Value... values) {
+        return call.apply(values);
+    }
+
+    public Value getValue(Value value) {
+        incompatibleValueException(Operation.GET_VALUE, Type.FUNCTION);
+        return null;
+    }
+
+
+    public void putValue(Value key, Value value) {
+        incompatibleValueException(Operation.PUT_VALUE, Type.FUNCTION);
+    }
+
+    public boolean isTrue() {
+        return false;
+    }
+
+    #foreach($operation in $allExceptFunctionObjectOperations)
+        public Value ${operation.operationFunction}(Value val) {
+            return val.${operation.operationFunction}${type.typeString}(this);
+        }
+
+    #end
+
+    #foreach($function in $finallyAppliedFunctions)
+        $function
+
+    #end
+}

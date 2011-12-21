@@ -1,0 +1,64 @@
+
+  DL/1 is a translator from an imaginary, dynamically typed language into
+  Java, written in Haskell.
+
+  The source language is created by Oleg Sobolev and described in the
+  'grammar' file. It is an educational language and is not supposed to have
+  practical meaning. Created programs should have the
+
+    '.ms' (Marianna Script)
+
+  extension.
+  
+  CREATE the translator with
+  
+    make
+
+  COMPILE your ms-program with
+
+    ./compile <file name>
+
+  RUN it with
+
+    ./run <file name>
+
+
+  DESCRIPTION OF FILES
+
+  grammar           EBNF description of source language
+
+  Scanner.hs        Parses input string into lexemes
+  
+  Filter.hs         Filters keywords out of lexemes parsed with 'Scanner'
+                    module
+
+  Grammar.hs        Data types for the program tree
+
+  Parser.hs         Parses scanned and filtered tokens into program tree
+
+  AuxFuncs.hs       Auxilary functions for 'Parser' module (Parser.hs)
+
+  Link.hs           Links identifiers, performs some checks
+  
+  Check.hs          Performs checks on linked syntax tree
+  
+  CheckAsgn.hs      Checks whether left sides of assignments can be assigned
+                    a value
+  
+  CheckMain.hs      Checks presence of a 'main' procedure
+
+  CheckReachable    Makes sure every statement of a function or procedure
+                    is reachable  
+  
+  CheckReturn.hs    Checks whether function returns anything
+  
+  Preludy           Standard functions (e. g. print)
+
+  Translator.hs     Translates parsed grammar tree into Java
+
+  Runtimy/src/
+    generate/       Auxilary Java classes directory
+    runtimy/        Output Java classes directory
+
+  dl.hs        Main module
+

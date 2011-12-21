@@ -1,0 +1,58 @@
+package runtimy;
+
+import generate.Type;
+import generate.Operation;
+
+public class BooleanVal extends Value {
+    public final Boolean value;
+
+    public BooleanVal(boolean value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        return value.toString();
+    }
+
+    public int hashCode() {
+        return 31 * value.hashCode();
+    }
+
+    public boolean equals(Object object) {
+        if (object instanceof BooleanVal) {
+             return ((BooleanVal)object).value.equals(value);
+        } else {
+            return false;
+        }
+    }
+
+    public Value apply(Value... values) {
+        incompatibleValueException(Operation.APPLY, Type.BOOLEAN);
+        return null;
+    }
+
+    public Value getValue(Value value) {
+        incompatibleValueException(Operation.GET_VALUE, Type.BOOLEAN);
+        return null;
+    }
+
+    public void putValue(Value key, Value value) {
+        incompatibleValueException(Operation.PUT_VALUE, Type.BOOLEAN);
+    }
+
+    public boolean isTrue() {
+        return value;
+    }
+
+    #foreach($operation in $allExceptFunctionObjectOperations)
+        public Value ${operation.operationFunction}(Value val) {
+            return val.${operation.operationFunction}BooleanVal(this);
+        }
+
+    #end
+
+    #foreach($function in $finallyAppliedFunctions)
+        $function
+
+    #end
+}

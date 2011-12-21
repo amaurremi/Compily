@@ -1,0 +1,53 @@
+package runtimy;
+
+import generate.Type;
+import generate.Operation;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ObjectVal extends Value {
+    private final Map<Value, Value> map;
+
+    public ObjectVal() {
+        map = new HashMap<Value, Value>();
+    }
+
+    public ObjectVal(Map<Value, Value> map) {
+        this.map = map;
+    }
+
+    public ObjectVal field(Value key, Value value) {
+        map.put(key, value);
+        return new ObjectVal(map);
+    }
+
+    public Value getValue(Value key) {
+        return map.get(key);
+    }
+    
+    public boolean isTrue() {
+        return false;
+    }
+
+    public void putValue(Value key, Value value) {
+        map.put(key, value);
+    }
+
+    public Value apply(Value... values) {
+        incompatibleValueException(Operation.APPLY, Type.$type);
+        return null;
+    }
+    
+    #foreach($operation in $allExceptFunctionObjectOperations)
+        public Value ${operation.operationFunction}(Value val) {
+            return val.${operation.operationFunction}${type.typeString}(this);
+        }
+
+    #end
+
+    #foreach($function in $finallyAppliedFunctions)
+        $function
+
+    #end
+}

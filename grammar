@@ -1,0 +1,75 @@
+<program> ::= { <decl> }
+
+<decl> ::= 
+  ("function" | "procedure") <ident> "(" [ <ident> { "," <ident> } ] ")" <block>
+| "var" <ident> [ "=" <expression> ] ";"
+
+<block> ::= "{" { <decl> | <statement> } "}"
+
+<statement> ::=
+  "if" <expression> "then" <statement> [ "else" <statement> ]
+| "while" <expression> "do" <statement>
+| "call" <call> "(" [ <expression> { "," <expression> } ] ")" ";"
+| "print" <expression> ";"
+| "return" <expression> ";"
+| <block>
+| <call> "=" <expression> ";"
+
+<expression> ::= <comparison> { ("&&" | "||") <comparison> }
+
+<comparison> ::= <sum> [ ("==" | "/=" | "<" | ">" | "<=" | ">=") <sum> ]
+
+<sum> ::= ["+" | "-"] <product> { ("+" | "-") <product> }
+
+<product> ::= <elem> { ("*" | "/") <elem> }
+
+<elem> ::=
+  "(" <expression> ")"
+| <integer>
+| <string>
+| <call>
+| "{" { <expression> ":" <expression> } "}"
+
+<call> ::= <ident> { <suffix> }
+
+<suffix> ::=
+  "[" <expression> "]"
+| "(" [ <expression> { "," <expression> } ] ")"
+
+Лексемы:
+<ident>
+<integer>
+<string>
+"function"
+"procedure"
+"if"
+"then"
+"else"
+"while"
+"do"
+"call"
+"return"
+"var"
+"print"
+"("
+")"
+"["
+"]"
+"{"
+"}"
+","
+";"
+":"
+"="
+"&&"
+"||"
+"=="
+"/="
+"<"
+">"
+"<="
+">="
+"+"
+"-"
+"*"
+"/"

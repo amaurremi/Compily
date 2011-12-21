@@ -1,0 +1,59 @@
+package runtimy;
+
+import generate.Type;
+import generate.Operation;
+
+public class StringVal extends Value {
+    public final String value;
+
+    public StringVal(String value) {
+        this.value = value;
+    }
+
+    public String toString() {
+        return value;
+    }
+
+    public int hashCode() {
+        return 31 * value.hashCode();
+    }
+
+    public boolean equals(Object object) {
+        if (object instanceof StringVal) {
+             return ((StringVal)object).value.equals(value);
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isTrue() {
+        return false;
+    }
+
+    public Value apply(Value... values) {
+        incompatibleValueException(Operation.APPLY, Type.STRING);
+        return null;
+    }
+
+    public Value getValue(Value value) {
+        incompatibleValueException(Operation.GET_VALUE, Type.STRING);
+        return null;
+    }
+
+
+    public void putValue(Value key, Value value) {
+        incompatibleValueException(Operation.PUT_VALUE, Type.STRING);
+    }
+
+    #foreach($operation in $allExceptFunctionObjectOperations)
+        public Value ${operation.operationFunction}(Value val) {
+            return val.${operation.operationFunction}StringVal(this);
+        }
+
+    #end
+
+    #foreach($function in $finallyAppliedFunctions)
+        $function
+
+    #end
+}
